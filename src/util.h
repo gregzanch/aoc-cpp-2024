@@ -61,8 +61,8 @@ constexpr uint8_t RIGHT_INCLUSIVE = 0b01;
 constexpr uint8_t LEFT_INCLUSIVE = 0b10;
 constexpr uint8_t BOTH_INCLUSIVE = 0b11;
 
-template <Numeric T>
-bool within(T value, T lower, T upper, uint8_t inclusivity = EXCLUSIVE) {
+template <Numeric T, Numeric A, Numeric B>
+inline bool within(T value, A lower, B upper, uint8_t inclusivity = EXCLUSIVE) {
   // inclusivity bit pattern:
   // 0b00 -> (lower, upper)
   // 0b01 -> (lower, upper]
