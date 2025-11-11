@@ -43,7 +43,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -90,4 +91,4 @@ Temporary Items
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,c++
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
-
+./aoc
