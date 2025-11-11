@@ -18,7 +18,7 @@ class Day04 : public Solution {
     std::vector<std::vector<char>> input;
     for (const auto& line : read_result.value()) {
       std::vector<char> row;
-      for(int i = 0; i<line.size(); i++) {
+      for (int i = 0; i < line.size(); i++) {
         row.emplace_back(line.at(i));
       }
       input.emplace_back(std::move(row));
@@ -38,10 +38,10 @@ class Day04 : public Solution {
     }
 
     std::vector<std::tuple<size_t, size_t>> indices{
-      std::tuple(x + 0 * x_direction, y + 0 * y_direction),
-      std::tuple(x + 1 * x_direction, y + 1 * y_direction),
-      std::tuple(x + 2 * x_direction, y + 2 * y_direction),
-      std::tuple(x + 3 * x_direction, y + 3 * y_direction),
+        std::tuple(x + 0 * x_direction, y + 0 * y_direction),
+        std::tuple(x + 1 * x_direction, y + 1 * y_direction),
+        std::tuple(x + 2 * x_direction, y + 2 * y_direction),
+        std::tuple(x + 3 * x_direction, y + 3 * y_direction),
     };
 
     std::string formed_string = "";
@@ -50,35 +50,34 @@ class Day04 : public Solution {
       formed_string.push_back(word_search.get(x_index, y_index).value());
     }
 
-    if(formed_string == "XMAS") {
+    if (formed_string == "XMAS") {
       return true;
     }
 
     return false;
-
   }
   PartResult part1() {
-    const std::array<std::tuple<int, int>, 8> directions {
-      std::tuple(0, 1), // up
-      std::tuple(1, 0), // right
-      std::tuple(0, -1), // down
-      std::tuple(-1, 0), // left
-      std::tuple(1, 1), // up right
-      std::tuple(1, -1), // down right
-      std::tuple(-1, -1), // down left
-      std::tuple(-1, 1), // up left
+    const std::array<std::tuple<int, int>, 8> directions{
+        std::tuple(0, 1),    // up
+        std::tuple(1, 0),    // right
+        std::tuple(0, -1),   // down
+        std::tuple(-1, 0),   // left
+        std::tuple(1, 1),    // up right
+        std::tuple(1, -1),   // down right
+        std::tuple(-1, -1),  // down left
+        std::tuple(-1, 1),   // up left
     };
     int total_count = 0;
-    for(int x = 0; x<word_search.width(); x++){
-      for(int y = 0; y<word_search.height(); y++) {
+    for (int x = 0; x < word_search.width(); x++) {
+      for (int y = 0; y < word_search.height(); y++) {
         int match_count = 0;
-        for(const auto& direction : directions) {
+        for (const auto& direction : directions) {
           const auto [x_dir, y_dir] = direction;
-          if(search(x, y, x_dir, y_dir)) {
+          if (search(x, y, x_dir, y_dir)) {
             match_count++;
           }
         }
-        total_count+=match_count;
+        total_count += match_count;
       }
     }
     return std::to_string(total_count);
