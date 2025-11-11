@@ -11,7 +11,7 @@ public:
     if (!read_result.has_value()) {
       return std::unexpected(read_result.error());
     }
-    input = read_result.value();
+    input = std::move(read_result.value());
 
     // split into lists
     for (const auto &line : input) {

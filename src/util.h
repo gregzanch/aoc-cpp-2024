@@ -5,6 +5,8 @@
 #include <format>
 #include <fstream>
 #include <optional>
+#include <regex>
+#include <sstream>
 #include <string>
 #include <type_traits>
 #include <unordered_map>
@@ -18,8 +20,7 @@ concept Iterable = std::ranges::range<K>;
 
 using Lines = std::vector<std::string>;
 using ReadLinesResult = std::expected<Lines, std::string>;
-
-inline auto read_input_lines(const std::filesystem::path& path) -> ReadLinesResult {
+auto read_input_lines(const std::filesystem::path& path) -> ReadLinesResult {
   if (!std::filesystem::exists(path)) {
     return std::unexpected(std::format("{} does not exist!", path.string()));
   }
@@ -37,6 +38,22 @@ inline auto read_input_lines(const std::filesystem::path& path) -> ReadLinesResu
   }
 
   return result;
+}
+
+using ReadFileResult = std::expected<std::string, std::string>;
+auto read_input_file(const std::filesystem::path& path) -> ReadFileResult {
+  if (!std::filesystem::exists(path)) {
+    return std::unexpected(std::format("{} does not exist!", path.string()));
+  }
+  std::ifstream input_file(path);
+  if (!input_file.is_open()) {
+    return std::unexpected(
+        std::format("{} is currently open. Close it to continue", path.string()));
+  }
+
+  std::ostringstream buffer;
+  buffer << input_file.rdbuf();
+  return buffer.str();
 }
 
 constexpr uint8_t EXCLUSIVE = 0b00;
@@ -99,5 +116,38 @@ auto split_by(
     result.emplace_back(parser(last));
   }
 
+  return result;
+}
+
+using MatchResult = std::optional<std::vector<std::vector<std::string>>>;
+MatchResult basic_match(const std::string& input, const std::regex& pattern) {
+  std::vector<std::vector<std::string>> result;
+
+  auto begin = std::sregex_iterator(input.begin(), input.end(), pattern);
+  auto end = std::sregex_iterator();
+  auto count = 0;
+  for (auto it = begin; it != end; ++it) {
+    const std::smatch& match = *it;
+    std::vector<std::string> g{};
+    for (size_t groupIndex = 0; groupIndex < match.size(); ++groupIndex) {
+      g.emplace_back(match[groupIndex].str());
+      count++;
+    }
+    result.emplace_back(std::move(g));
+  }
+  if (count) {
+    return result;
+  }
+  return {};
+}
+
+template <typename T>
+std::vector<T> flatten(const std::vector<std::vector<T>>& iterable) {
+  std::vector<T> result;
+  for (const auto& row : iterable) {
+    for (const auto& item : row) {
+      result.emplace_back(item);
+    }
+  }
   return result;
 }

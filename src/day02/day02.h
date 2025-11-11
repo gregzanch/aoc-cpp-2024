@@ -11,7 +11,7 @@ class Day02 : public Solution {
     if (!read_result.has_value()) {
       return std::unexpected(read_result.error());
     }
-    input = read_result.value();
+    input = std::move(read_result.value());
 
     for (const auto& line : input) {
       const auto report =

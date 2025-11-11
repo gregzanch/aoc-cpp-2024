@@ -11,7 +11,7 @@ class Day01 : public Solution {
     if (!read_result.has_value()) {
       return std::unexpected(read_result.error());
     }
-    input = read_result.value();
+    input = std::move(read_result.value());
 
     return std::tuple(part1(), part2());
   }
