@@ -1,9 +1,5 @@
 #pragma once
 
-#include <algorithm>
-#include <cstdlib>
-#include <expected>
-#include <string>
 #include "../solution.h"
 
 class Day02 : public Solution {
