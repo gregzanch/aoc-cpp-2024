@@ -3,11 +3,13 @@
 #include "util.h"
 #include <tuple>
 
-// Result from a single day
-using DayResult = std::expected<std::string, std::string>;
+// Result from part 1 or 2 from a day
+using PartResult = std::expected<std::string, std::string>;
+// Result from the whole day
+using DayResult = std::expected<std::tuple<PartResult, PartResult>, std::string>;
 
 class Solution {
 public:
-  virtual std::tuple<DayResult, DayResult> solve() = 0;
+  virtual DayResult solve() = 0;
   virtual ~Solution() = default;
 };

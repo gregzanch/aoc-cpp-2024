@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <print>
 #include "src/days.h"
-#include "src/util/util.h"
+
 
 void help(const char** argv) {
   const auto program = argv[0];
@@ -23,14 +23,22 @@ int main(int argc, const char** argv) {
     return 1;
   }
 
-  const auto [part1, part2] = days.at(day_number)->solve();
+  const auto day_result = days.at(day_number)->solve();
+  if(!day_result.has_value()) {
+    std::println("Day {} had error: {}", day_number, day_result.error());
+    return 1;
+  }
+
+  const auto [part1, part2] = day_result.value();
 
   if(!part1.has_value()) {
     std::println("Day {} part 1 had error: {}", day_number, part1.error());
+    return 1;
   }
 
   if(!part2.has_value()) {
     std::println("Day {} part 2 had error: {}", day_number, part2.error());
+    return 1;
   }
 
   std::println("Part 1: {}", part1.value());
