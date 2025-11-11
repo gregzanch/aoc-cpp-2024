@@ -36,8 +36,8 @@ class Day03 : public Solution {
         return std::unexpected(std::format("failed to parse mul statement {}", statement));
       }
       auto args = flatten(matches.value());
-      const int a = std::atoi(args.at(0).c_str());
-      const int b = std::atoi(args.at(1).c_str());
+      const int a = std::stoi(args.at(0));
+      const int b = std::stoi(args.at(1));
 
       sum += a * b;
     }
@@ -70,8 +70,8 @@ class Day03 : public Solution {
           return std::unexpected(std::format("failed to parse mul statement {}", statement));
         }
         auto args = flatten(matches.value());
-        const int a = std::atoi(args.at(0).c_str());
-        const int b = std::atoi(args.at(1).c_str());
+        const int a = std::stoi(args.at(0));
+        const int b = std::stoi(args.at(1));
 
         sum += a * b;
       }

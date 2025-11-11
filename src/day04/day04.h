@@ -82,7 +82,12 @@ class Day04 : public Solution {
     }
     return std::to_string(total_count);
   }
-  PartResult part2() { return std::to_string(0); }
+  PartResult part2() {
+    // find all As
+    // must have two Ms next to eachother
+    // if two Ms next to eachother, rest must be Ss
+    return "";
+  }
 
   Matrix<char> word_search;
 };

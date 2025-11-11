@@ -17,8 +17,8 @@ public:
     for (const auto &line : input) {
       const auto first = line.substr(0, line.find_first_of(" "));
       const auto second = line.substr(line.find_last_of(" "), line.size() - 1);
-      left_list.emplace_back(std::atoi(first.c_str()));
-      right_list.emplace_back(std::atoi(second.c_str()));
+      left_list.emplace_back(std::stoi(first));
+      right_list.emplace_back(std::stoi(second));
     }
 
     return std::tuple(part1(), part2());

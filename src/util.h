@@ -151,3 +151,7 @@ std::vector<T> flatten(const std::vector<std::vector<T>>& iterable) {
   }
   return result;
 }
+
+inline bool is_empty_string(const std::string& str) {
+  return str == "";
+}

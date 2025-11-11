@@ -15,7 +15,7 @@ class Day02 : public Solution {
 
     for (const auto& line : input) {
       const auto report =
-          split_by(line, " ", [](std::string item) { return std::atoi(item.c_str()); });
+          split_by(line, " ", [](std::string item) { return std::stoi(item); });
       reports.emplace_back(report);
     }
 
