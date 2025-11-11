@@ -19,15 +19,14 @@ concept Iterable = std::ranges::range<K>;
 using Lines = std::vector<std::string>;
 using ReadLinesResult = std::expected<Lines, std::string>;
 
-inline auto read_input_lines(const std::filesystem::path &path)
-    -> ReadLinesResult {
+inline auto read_input_lines(const std::filesystem::path& path) -> ReadLinesResult {
   if (!std::filesystem::exists(path)) {
     return std::unexpected(std::format("{} does not exist!", path.string()));
   }
   std::ifstream input_file(path);
   if (!input_file.is_open()) {
-    return std::unexpected(std::format(
-        "{} is currently open. Close it to continue", path.string()));
+    return std::unexpected(
+        std::format("{} is currently open. Close it to continue", path.string()));
   }
 
   std::vector<std::string> result;
@@ -62,12 +61,43 @@ bool within(T value, T lower, T upper, uint8_t inclusivity = EXCLUSIVE) {
   return lower_ok && upper_ok;
 }
 
-template<std::ranges::range K>
+template <std::ranges::range K>
 auto bag(const K& input) {
-    using T = std::ranges::range_value_t<K>;
-    std::unordered_map<T, int> result;
-    for (auto&& elem : input) {
-        ++result[elem];
+  using T = std::ranges::range_value_t<K>;
+  std::unordered_map<T, int> result;
+  for (auto&& elem : input) {
+    ++result[elem];
+  }
+  return result;
+}
+template <typename Parser>
+concept StringParser = requires(Parser p, std::string s) {
+  { p(s) };
+};
+
+template <StringParser Parser>
+auto split_by(
+    const std::string& input,
+    const std::string& delimiter,
+    Parser parser = [](std::string s) { return s; }) {
+  using T = std::invoke_result_t<Parser, std::string>;
+  std::vector<T> result;
+
+  size_t start = 0;
+  size_t end;
+
+  while ((end = input.find(delimiter, start)) != std::string::npos) {
+    std::string token = input.substr(start, end - start);
+    if (!token.empty()) {
+      result.emplace_back(parser(token));
     }
-    return result;
+    start = end + delimiter.length();
+  }
+
+  std::string last = input.substr(start);
+  if (!last.empty()) {
+    result.emplace_back(parser(last));
+  }
+
+  return result;
 }
