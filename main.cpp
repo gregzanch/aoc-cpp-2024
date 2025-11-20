@@ -19,7 +19,7 @@ int main(int argc, const char** argv) {
 
   size_t day_number = atoi(argv[1]) - 1;
   if(!within(day_number, 0uz, days.size(), LEFT_INCLUSIVE)) {
-    std::println("{} out of bounds", day_number);
+    std::println("day {} doesn't exist", day_number + 1);
     return 1;
   }
 
