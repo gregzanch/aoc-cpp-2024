@@ -96,7 +96,7 @@ template <StringParser Parser>
 auto split_by(
     const std::string& input,
     const std::string& delimiter,
-    Parser parser = [](std::string s) { return s; }) {
+    Parser parser = [](const std::string& s) { return s; }) {
   using T = std::invoke_result_t<Parser, std::string>;
   std::vector<T> result;
 
