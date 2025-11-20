@@ -24,7 +24,13 @@ struct vec {
   constexpr vec(vec&&) = default;
   constexpr vec& operator=(const vec&) = default;
   constexpr vec& operator=(vec&&) = default;
-  
+
+  template <Numeric... Args, typename = std::enable_if_t<sizeof...(Args) == N>>
+  constexpr void set(Args... args) {
+    std::size_t i = 0;
+    ((data[i++] = static_cast<T>(args)), ...);
+  }
+
   constexpr vec operator+(const vec& other) const {
     vec r;
     for (std::size_t i = 0; i < N; i++) {
