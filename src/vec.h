@@ -24,6 +24,7 @@ struct vec {
   constexpr vec(vec&&) = default;
   constexpr vec& operator=(const vec&) = default;
   constexpr vec& operator=(vec&&) = default;
+  constexpr bool operator==(const vec&) const = default;
 
   template <Numeric... Args, typename = std::enable_if_t<sizeof...(Args) == N>>
   constexpr void set(Args... args) {
@@ -127,6 +128,17 @@ struct std::formatter<vec<N, T>> {
     }
     output += ")";
     return std::format_to(ctx.out(), "{}", output);
+  }
+};
+
+template <std::size_t N, typename T>
+struct std::hash<vec<N, T>> {
+  size_t operator()(const vec<N, T>& v) const {
+    size_t h = 0;
+    for (auto& x : v.data) {
+      h ^= std::hash<T>{}(x) + 0x9e3779b9 + (h << 6) + (h >> 2);
+    }
+    return h;
   }
 };
 
